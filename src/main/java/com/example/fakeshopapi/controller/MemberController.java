@@ -22,10 +22,12 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid MemberLoginDto loginDto) {
 
+        // TODO email에 해당하는 사용자 정보를 읽어와서 암호가 맞는지 검사하는 코드가 있어야 한다.
         Long memberId = 1L;
         String email = loginDto.getEmail();
         List<String> roles = List.of("ROLE_USER");
 
+        // JWT토큰을 생성하였다. jwt라이브러리를 이용하여 생성.
         String accessToken = jwtTokenizer.createAccessToken(memberId, email, roles);
         String refreshToken = jwtTokenizer.createRefreshToken(memberId, email, roles);
 

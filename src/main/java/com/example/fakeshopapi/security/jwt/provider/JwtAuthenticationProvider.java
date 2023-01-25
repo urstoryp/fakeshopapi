@@ -24,6 +24,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         JwtAuthenticationToken authenticationToken = (JwtAuthenticationToken) authentication;
         // 토큰을 검증한다. 기간이 만료되었는지, 토큰 문자열이 문제가 있는지 등 Exception이 발생한다.
         Claims claims = jwtTokenizer.parseAccessToken(authenticationToken.getToken());
+        // sub에 암호화된 데이터를 집어넣고, 복호화하는 코드를 넣어줄 수 있다.
         String email = claims.getSubject();
         List<GrantedAuthority> authorities = getGrantedAuthorities(claims);
 
