@@ -25,7 +25,7 @@ public class MemberSignupDto {
     private String password;
 
     @NotEmpty
-    @Pattern(regexp = "^[a-zA-Z가-힣\\\\s]{2,15}$",
+    @Pattern(regexp = "^[a-zA-Z가-힣\\\\s]{2,15}",
             message = "이름은 영문자, 한글, 공백포함 2글자부터 15글자까지 가능합니다.")
     private String name;
 }
