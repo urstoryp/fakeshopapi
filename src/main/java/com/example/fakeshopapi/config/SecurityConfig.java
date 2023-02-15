@@ -16,8 +16,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 
 // Spring Security 설정.
 @Configuration
@@ -44,12 +43,10 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() // Preflight 요청은 허용한다. https://velog.io/@jijang/%EC%82%AC%EC%A0%84-%EC%9A%94%EC%B2%AD-Preflight-request
-                .mvcMatchers( "/signup", "/login", "/users/refresh").permitAll()
-//                .mvcMatchers(GET, "/**").permitAll()
-                .mvcMatchers(GET,"/**").hasAnyRole("USER", "MANAGER", "ADMIN")
-                .mvcMatchers(POST,"/**").hasAnyRole("USER", "MANAGER", "ADMIN")
-//                .mvcMatchers(POST,"answers/**").hasAnyRole("USER", "MANAGER", "ADMIN")
-                .anyRequest().hasAnyRole()
+                .mvcMatchers( "/members/signup", "/members/login", "/members/refreshToken").permitAll()
+                .mvcMatchers(GET,"/**").hasAnyRole("USER", "ADMIN")
+                .mvcMatchers(POST,"/**").hasAnyRole("USER", "ADMIN")
+                .anyRequest().hasAnyRole("USER", "ADMIN")
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(customAuthenticationEntryPoint)

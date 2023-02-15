@@ -95,29 +95,4 @@ public class JwtTokenizer {
         return Keys.hmacShaKeyFor(secretKey);
     }
 
-//    /**
-//     * 토큰 검증
-//     * @param jwt
-//     * @return
-//     * @throws UnsupportedEncodingException
-//     */
-//    public Map<String, Object> checkJwt(String jwt) throws UnsupportedEncodingException {
-//        Map<String, Object> claimMap = null;
-//        try {
-//            Claims claims = Jwts.parserBuilder().build()
-//                    .
-//                    .setSigningKey(accessSecret) // 키 설정
-//                    .parseClaimsJws(jwt) // jwt의 정보를 파싱해서 시그니처 값을 검증한다.
-//                    .getBody();
-//
-//            claimMap = claims;
-//
-//        } catch (ExpiredJwtException e) { // 토큰이 만료되었을 경우
-//            System.out.println(e);
-//
-//        } catch (Exception e) { // 나머지 에러의 경우
-//            System.out.println(e);
-//        }
-//        return claimMap;
-//    }
 }
