@@ -61,19 +61,24 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid MemberLoginDto loginDto) {
+    public ResponseEntity login(@RequestBody @Valid MemberLoginDto loginDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
 
         // email이 없을 경우 Exception이 발생한다. Global Exception에 대한 처리가 필요하다.
         Member member = memberService.findByEmail(loginDto.getEmail());
         if(!passwordEncoder.matches(loginDto.getPassword(), member.getPassword())){
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
+        // List<Role> ===> List<String>
         List<String> roles = member.getRoles().stream().map(Role::getName).collect(Collectors.toList());
 
         // JWT토큰을 생성하였다. jwt라이브러리를 이용하여 생성.
         String accessToken = jwtTokenizer.createAccessToken(member.getMemberId(), member.getEmail(), roles);
         String refreshToken = jwtTokenizer.createRefreshToken(member.getMemberId(), member.getEmail(), roles);
 
+        // RefreshToken을 DB에 저장한다. 성능 때문에 DB가 아니라 Redis에 저장하는 것이 좋다.
         RefreshToken refreshTokenEntity = new RefreshToken();
         refreshTokenEntity.setValue(refreshToken);
         refreshTokenEntity.setMemberId(member.getMemberId());
