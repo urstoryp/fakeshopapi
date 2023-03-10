@@ -30,9 +30,9 @@ public class JwtTokenizerTest {
         Claims claims = Jwts.claims().setSubject(email); // JWT 토큰의 payload에 들어갈 내용(claims)을 설정.
         // claims -- sub -- email
         //        -- roles -- [ "ROLE_USER" ]
-        //        -- userId -- 1L
+        //        -- memberId -- 1L
         claims.put("roles", roles);
-        claims.put("userId", id);
+        claims.put("memberId", id);
 
         // application.yml파일의 jwt: secretKey: 값
         byte[] accessSecret = this.accessSecret.getBytes(StandardCharsets.UTF_8);
@@ -59,25 +59,25 @@ public class JwtTokenizerTest {
                 .build()
                 .parseClaimsJws(jwtToken)
                 .getBody();
-        System.out.println(claims.getSubject());
-        System.out.println(claims.get("roles"));
-        System.out.println(claims.get("userId"));
-        System.out.println(claims.getIssuedAt());
-        System.out.println(claims.getExpiration());
+//        System.out.println(claims.getSubject());
+//        System.out.println(claims.get("roles"));
+//        System.out.println(claims.get("memberId"));
+//        System.out.println(claims.getIssuedAt());
+//        System.out.println(claims.getExpiration());
     }
 
     @Test
     public void createJWT(){
-        String jwtToken = jwtTokenizer.createAccessToken(1L, "urstory@gmail.com", List.of("ROLE_USER"));
+        String jwtToken = jwtTokenizer.createAccessToken(1L, "urstory@gmail.com", "김성박", List.of("ROLE_USER"));
         System.out.println(jwtToken);
     }
 
     @Test
     public void parseJWT(){
         Claims claims = jwtTokenizer.parseAccessToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cnN0b3J5QGdtYWlsLmNvbSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJ1c2VySWQiOjEsImlhdCI6MTY3NTI0Mzg4NywiZXhwIjoxNjc1MjQ1Njg3fQ.dXO2M9nQM8YvHgjrCfhuaXKcYj3fSaCP5xYQTRH94yQ");
-        System.out.println(claims.getSubject());
-        System.out.println(claims.get("roles"));
-        System.out.println(claims.get("userId"));
+//        System.out.println(claims.getSubject());
+//        System.out.println(claims.get("roles"));
+//        System.out.println(claims.get("memberId"));
     }
 }
 

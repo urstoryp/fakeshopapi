@@ -1,19 +1,16 @@
 package com.example.fakeshopapi.security.jwt.util;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Component
@@ -33,24 +30,25 @@ public class JwtTokenizer {
     /**
      * AccessToken 생성
      */
-    public String createAccessToken(Long id, String email, List<String> roles) {
-        return createToken(id, email, roles, ACCESS_TOKEN_EXPIRE_COUNT, accessSecret);
+    public String createAccessToken(Long id, String email, String name, List<String> roles) {
+        return createToken(id, email, name, roles, ACCESS_TOKEN_EXPIRE_COUNT, accessSecret);
     }
 
     /**
      * RefreshToken 생성
      */
-    public String createRefreshToken(Long id, String email, List<String> roles) {
-        return createToken(id, email, roles, REFRESH_TOKEN_EXPIRE_COUNT, refreshSecret);
+    public String createRefreshToken(Long id, String email, String name, List<String> roles) {
+        return createToken(id, email, name, roles, REFRESH_TOKEN_EXPIRE_COUNT, refreshSecret);
     }
 
 
-    private String createToken(Long id, String email, List<String> roles,
+    private String createToken(Long id, String email, String name, List<String> roles,
                                Long expire, byte[] secretKey) {
         Claims claims = Jwts.claims().setSubject(email);
 
         claims.put("roles", roles);
-        claims.put("userId", id);
+        claims.put("memberId", id);
+        claims.put("name", name);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -63,11 +61,11 @@ public class JwtTokenizer {
     /**
      * 토큰에서 유저 아이디 얻기
      */
-    public Long getUserIdFromToken(String token) {
+    public Long getMemberIdFromToken(String token) {
         String[] tokenArr = token.split(" ");
         token = tokenArr[1];
         Claims claims = parseToken(token, accessSecret);
-        return Long.valueOf((Integer)claims.get("userId"));
+        return Long.valueOf((Integer)claims.get("memberId"));
     }
 
     public Claims parseAccessToken(String accessToken) {

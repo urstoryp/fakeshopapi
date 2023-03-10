@@ -75,8 +75,8 @@ public class MemberController {
         List<String> roles = member.getRoles().stream().map(Role::getName).collect(Collectors.toList());
 
         // JWT토큰을 생성하였다. jwt라이브러리를 이용하여 생성.
-        String accessToken = jwtTokenizer.createAccessToken(member.getMemberId(), member.getEmail(), roles);
-        String refreshToken = jwtTokenizer.createRefreshToken(member.getMemberId(), member.getEmail(), roles);
+        String accessToken = jwtTokenizer.createAccessToken(member.getMemberId(), member.getEmail(), member.getName(), roles);
+        String refreshToken = jwtTokenizer.createRefreshToken(member.getMemberId(), member.getEmail(), member.getName(), roles);
 
         // RefreshToken을 DB에 저장한다. 성능 때문에 DB가 아니라 Redis에 저장하는 것이 좋다.
         RefreshToken refreshTokenEntity = new RefreshToken();
@@ -109,15 +109,15 @@ public class MemberController {
         RefreshToken refreshToken = refreshTokenService.findRefreshToken(refreshTokenDto.getRefreshToken()).orElseThrow(() -> new IllegalArgumentException("Refresh token not found"));
         Claims claims = jwtTokenizer.parseRefreshToken(refreshToken.getValue());
 
-        Long userId = Long.valueOf((Integer)claims.get("userId"));
+        Long memberId = Long.valueOf((Integer)claims.get("memberId"));
 
-        Member member = memberService.getMember(userId).orElseThrow(() -> new IllegalArgumentException("Member not found"));
+        Member member = memberService.getMember(memberId).orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
 
         List roles = (List) claims.get("roles");
         String email = claims.getSubject();
 
-        String accessToken = jwtTokenizer.createAccessToken(userId, email, roles);
+        String accessToken = jwtTokenizer.createAccessToken(memberId, email, member.getName(), roles);
 
         MemberLoginResponseDto loginResponse = MemberLoginResponseDto.builder()
                 .accessToken(accessToken)

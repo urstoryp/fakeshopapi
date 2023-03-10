@@ -4,6 +4,8 @@ import com.example.fakeshopapi.security.jwt.exception.CustomAuthenticationEntryP
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -44,6 +46,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() // Preflight 요청은 허용한다. https://velog.io/@jijang/%EC%82%AC%EC%A0%84-%EC%9A%94%EC%B2%AD-Preflight-request
                 .mvcMatchers( "/members/signup", "/members/login", "/members/refreshToken").permitAll()
+                .mvcMatchers(GET, "/categories/**", "/products/**").permitAll()
                 .mvcMatchers(GET,"/**").hasAnyRole("USER", "ADMIN")
                 .mvcMatchers(POST,"/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().hasAnyRole("USER", "ADMIN")

@@ -18,7 +18,7 @@ import java.util.Set;
 public class Member {
     @Id // 이 필드가 Table의 PK.
     @Column(name="member_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // userId는 자동으로 생성되도록 한다. 1,2,3,4
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // memberId는 자동으로 생성되도록 한다. 1,2,3,4
     private Long memberId;
 
     @Column(length = 255)

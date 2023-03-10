@@ -13,7 +13,7 @@ public class HelloApiController {
 
     @GetMapping("/hello")
     public String hello(@RequestHeader("Authorization") String token) {
-        Long userIdFromToken = jwtTokenizer.getUserIdFromToken(token);
-        return "hello " + userIdFromToken;
+        Long memberIdFormToken = jwtTokenizer.getMemberIdFromToken(token);
+        return "hello " + memberIdFormToken;
     }
 }
