@@ -9,7 +9,7 @@ import java.util.Collection;
 @Getter
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     private String token;
-    private Object principal;
+    private Object principal; // 로그인한 사용자 id , email
     private Object credentials;
 
     /**
@@ -39,6 +39,6 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     @Override
     public Object getPrincipal() {
-        return this.credentials;
-    }
+        return this.principal;
+    } // 기존 코드를 수정
 }

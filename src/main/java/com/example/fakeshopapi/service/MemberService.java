@@ -33,4 +33,9 @@ public class MemberService {
     public Optional<Member> getMember(Long memberId){
         return memberRepository.findById(memberId);
     }
+
+    @Transactional(readOnly = true)
+    public Optional<Member> getMember(String email){
+        return memberRepository.findByEmail(email);
+    }
 }
