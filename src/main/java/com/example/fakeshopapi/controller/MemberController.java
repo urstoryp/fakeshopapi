@@ -4,7 +4,9 @@ import com.example.fakeshopapi.domain.Member;
 import com.example.fakeshopapi.domain.RefreshToken;
 import com.example.fakeshopapi.domain.Role;
 import com.example.fakeshopapi.dto.*;
+import com.example.fakeshopapi.security.jwt.util.IfLogin;
 import com.example.fakeshopapi.security.jwt.util.JwtTokenizer;
+import com.example.fakeshopapi.security.jwt.util.LoginUserDto;
 import com.example.fakeshopapi.service.MemberService;
 import com.example.fakeshopapi.service.RefreshTokenService;
 import io.jsonwebtoken.Claims;
@@ -47,6 +49,10 @@ public class MemberController {
         member.setName(memberSignupDto.getName());
         member.setEmail(memberSignupDto.getEmail());
         member.setPassword(passwordEncoder.encode(memberSignupDto.getPassword()));
+        member.setBirthYear(Integer.parseInt(memberSignupDto.getBirthYear()));
+        member.setBirthMonth(Integer.parseInt(memberSignupDto.getBirthMonth()));
+        member.setBirthDay(Integer.parseInt(memberSignupDto.getBirthDay()));
+        member.setGender(memberSignupDto.getGender());
 
         Member saveMember = memberService.addMember(member);
 
@@ -128,5 +134,10 @@ public class MemberController {
         return new ResponseEntity(loginResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/info")
+    public ResponseEntity userinfo(@IfLogin LoginUserDto loginUserDto) {
+        Member member = memberService.findByEmail(loginUserDto.getEmail());
+        return new ResponseEntity(member, HttpStatus.OK);
+    }
 
 }
