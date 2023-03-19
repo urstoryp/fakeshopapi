@@ -22,9 +22,12 @@ public class ProductController {
     }
 
     @GetMapping
-    public Page<Product> getProducts(@RequestParam Long categoryId, @RequestParam(required = false, defaultValue = "0") int page) {
+    public Page<Product> getProducts(@RequestParam(required = false, defaultValue = "0") Long categoryId, @RequestParam(required = false, defaultValue = "0") int page) {
         int size = 10;
-        return productService.getProducts(categoryId, page, size);
+        if(categoryId == 0)
+            return productService.getProducts(page, size);
+        else
+            return productService.getProducts(categoryId, page, size);
     }
 
     @GetMapping("/{id}")
