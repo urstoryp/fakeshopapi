@@ -27,6 +27,7 @@ curl --location --request POST 'localhost:8080/members/signup' \
 
 ## 회원가입
 
+```
 curl --location --request POST 'localhost:8080/members/signup' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -38,26 +39,30 @@ curl --location --request POST 'localhost:8080/members/signup' \
 "birthDay":"일",
 "gender": "M or F"
 }'
+```
 
 ---
 
 ## 로그인
 
+```
 curl --location --request POST 'localhost:8080/members/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 "email":"이메일",
 "password":"암호"
 }'
+```
 
 ---
 
 ## 회원정보 읽어오기
 
+```
 curl  --request GET 'http://localhost:8080/members/info' \
 --header 'Authorization: Bearer 엑세스키' \
 --header 'Content-Type: application/json'
-
+```
 
 ---
 
