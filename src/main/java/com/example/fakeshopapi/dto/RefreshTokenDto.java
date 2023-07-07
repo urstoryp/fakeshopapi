@@ -2,7 +2,7 @@ package com.example.fakeshopapi.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.*;
 
 @Data
 public class RefreshTokenDto {

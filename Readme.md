@@ -1,5 +1,7 @@
 # JWT, Spring Security, Spring Data JPA, Spring MVC를 이용한 Fake Shop API만들기
 
+2023.07.07 - Spring Boot 3.1.1 , JDK 17 로 코드 수정함.
+
 
 ## role테이블에 다음의 정보를 미리 insert해야 합니다. (Spring Boot 애플리케이션이 실행될때 자동으로 추가되도록 수정됨)
 
@@ -7,8 +9,6 @@
 insert into role(name) values('ROLE_USER');
 insert into role(name) values('ROLE_ADMIN');
 ```
-
-
 
 
 ## 회원 가입
@@ -25,27 +25,39 @@ curl --location --request POST 'localhost:8080/members/signup' \
 
 ---
 
+## 회원가입
+
+curl --location --request POST 'localhost:8080/members/signup' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+"name":"이름",
+"email":"이메일",
+"password":"8자이상,대소문자특수문자섞은암호",
+"birthYear":"년도",
+"birthMonth":"월",
+"birthDay":"일",
+"gender": "M or F"
+}'
+
+---
+
 ## 로그인
 
-```
 curl --location --request POST 'localhost:8080/members/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "email":"email",
-    "password":"암호"
+"email":"이메일",
+"password":"암호"
 }'
-```
 
-응답 형식
+---
 
-```
-{
-    "accessToken": "JWT토큰",
-    "refreshToken": "JWT토큰",
-    "memberId": memberId,
-    "nickname": "이름"
-}
-```
+## 회원정보 읽어오기
+
+curl  --request GET 'http://localhost:8080/members/info' \
+--header 'Authorization: Bearer 엑세스키' \
+--header 'Content-Type: application/json'
+
 
 ---
 

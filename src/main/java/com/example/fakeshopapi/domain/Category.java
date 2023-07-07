@@ -3,7 +3,7 @@ package com.example.fakeshopapi.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "category")
